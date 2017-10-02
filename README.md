@@ -1,15 +1,13 @@
 # GhostPictures
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/ghost_pictures`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+GhostPictures provides the feature to wait for Ajax requests with [Capybara](https://github.com/teamcapybara/capybara).
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'ghost_pictures'
+gem 'ghost_pictures', group: :test
 ```
 
 And then execute:
@@ -22,7 +20,20 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+GhostPictures integrates to Rails and RSpec automatically, so wait for Ajax requests after specs run.
+
+If you wait for Ajax request manually, you can use as below:
+
+```rb
+click_link "get data via Ajax"
+GhostPictures.wait
+```
+
+Or use it with the block argument:
+
+```rb
+GhostPictures.wait { click_link "get data via Ajax" }
+```
 
 ## Development
 
@@ -32,4 +43,4 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/ghost_pictures.
+Bug reports and pull requests are welcome on GitHub at https://github.com/sinsoku/ghost_pictures.
