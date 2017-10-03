@@ -20,9 +20,20 @@ Or install it yourself as:
 
 ## Usage
 
-GhostPictures integrates to Rails and RSpec automatically, so wait for Ajax requests after specs run.
+Add the following code to `spec/rails_helper.rb`:
 
-If you wait for Ajax request manually, you can use as below:
+```rb
+RSpec.configure do |config|
+  config.before(:each) { GhostPictures.reset! }
+  config.after(:each) { GhostPictures.wait if GhostPictures.running? }
+end
+```
+
+It will wait for Ajax requests if running requests exist after specs run.
+
+### How to use in examples
+
+If you want to wait for Ajax request in examples, you can use as below:
 
 ```rb
 click_link "get data via Ajax"

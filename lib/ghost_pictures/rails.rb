@@ -2,8 +2,8 @@ module GhostPictures
   module Rails
     def self.included(base)
       base.class_eval do
-        before_action { GhostPictures.requests << request }
-        after_action { GhostPictures.requests.shift }
+        before_action { GhostPictures.start(request) }
+        after_action { GhostPictures.finish(request) }
       end
     end
   end

@@ -2,7 +2,6 @@ require "timeout"
 require "ghost_pictures/config"
 require "ghost_pictures/version"
 require "ghost_pictures/rails" if defined?(Rails)
-require "ghost_pictures/rspec" if defined?(RSpec)
 
 module GhostPictures
   class << self
@@ -14,38 +13,40 @@ module GhostPictures
       yield(config)
     end
 
-    def requests
-      @requests ||= []
+    def finish(request)
+      requests.delete(request)
     end
 
-    def start
+    def reset!
       @requests = []
     end
-
-    def finish
-      # TODO: Add a feature to select action as below
-      #       raise error, print warnings, wait for Ajax automatically
-      wait if running?
-    end
-
-    def wait
-      wait_new_request { yield if block_given? }
-      wait_proc { requests.empty? }
-    end
-
-    private
 
     def running?
       !requests.empty?
     end
 
-    def wait_new_request(&block)
-      last_request = requests.last
-      block.call
-      wait_proc { last_request.nil? ? running? : last_request != requests.last }
+    def start(request)
+      requests << request
     end
 
-    def wait_proc(&block)
+    def wait
+      last_request = requests.last
+      yield if block_given?
+      wait_until { new_request?(last_request) }
+      wait_until { requests.empty? }
+    end
+
+    private
+
+    def new_request?(last_request)
+      last_request.nil? ? running? : last_request != requests.last
+    end
+
+    def requests
+      @requests ||= reset!
+    end
+
+    def wait_until(&block)
       Timeout.timeout(config.timeout) do
         loop { break if block.call }
       end

@@ -20,34 +20,34 @@ RSpec.describe GhostPictures do
       end
     end
 
-    before { GhostPictures.start }
+    before { GhostPictures.reset! }
 
     context "running requests are empty" do
       before do
         stub_loop(
           -> { },
-          -> { GhostPictures.requests << 1 },
-          -> { GhostPictures.requests.shift }
+          -> { GhostPictures.start(1) },
+          -> { GhostPictures.finish(1) }
         )
       end
 
       it "wait a new request, and wait a response" do
         GhostPictures.wait
-        expect(GhostPictures.requests).to be_empty
+        expect(GhostPictures).not_to be_running
       end
     end
 
     context "running requests exists" do
       before do
         stub_loop(
-          -> { GhostPictures.requests << 1 },
-          -> { GhostPictures.requests.shift }
+          -> { GhostPictures.start(1) },
+          -> { GhostPictures.finish(1) }
         )
       end
 
       it "wait a response" do
         GhostPictures.wait
-        expect(GhostPictures.requests).to be_empty
+        expect(GhostPictures).not_to be_running
       end
     end
 
@@ -56,8 +56,8 @@ RSpec.describe GhostPictures do
         @clicked = false
         stub_loop(
           -> { raise unless @clicked },
-          -> { GhostPictures.requests << 1 },
-          -> { GhostPictures.requests.shift }
+          -> { GhostPictures.start(1) },
+          -> { GhostPictures.finish(1) }
         )
       end
 
@@ -65,7 +65,7 @@ RSpec.describe GhostPictures do
         GhostPictures.wait { @clicked = true }
 
         expect(@clicked).to be true
-        expect(GhostPictures.requests).to be_empty
+        expect(GhostPictures).not_to be_running
       end
     end
 
@@ -73,13 +73,12 @@ RSpec.describe GhostPictures do
       before do
         GhostPictures.config.timeout = 0.1
         stub_loop(
-          -> { GhostPictures.requests << 1 }
+          -> { GhostPictures.start(1) }
         )
       end
 
       it "raise Timeout::Error" do
         expect { GhostPictures.wait }.to raise_error Timeout::Error
-        GhostPictures.start # reset requests
       end
     end
   end
