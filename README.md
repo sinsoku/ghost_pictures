@@ -1,5 +1,7 @@
 # GhostPictures
 
+[![Build Status](https://travis-ci.org/sinsoku/ghost_pictures.svg?branch=master)](https://travis-ci.org/sinsoku/ghost_pictures)
+
 GhostPictures provides the feature to wait for Ajax requests with [Capybara](https://github.com/teamcapybara/capybara).
 
 ## Installation
