@@ -1,8 +1,16 @@
-sudo: false
+sudo: required
 language: ruby
 rvm:
   - 2.4.2
   - ruby-head
-before_install: gem install bundler -v 1.15.4
+addons:
+  chrome: stable
+before_install:
+  - gem install bundler -v 1.15.4
+  - wget https://chromedriver.storage.googleapis.com/2.33/chromedriver_linux64.zip
+  - unzip -d ~/ chromedriver_linux64.zip
+  - sudo mv -f ~/chromedriver /usr/local/share/
+  - sudo chmod +x /usr/local/share/chromedriver
+  - sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
 notifications:
   email: false
