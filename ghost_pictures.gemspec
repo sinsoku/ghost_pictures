@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["sinsoku"]
   spec.email         = ["sinsoku.listy@gmail.com"]
 
-  spec.summary       = %q{GhostPictures provides the feature to wait for Ajax requests with Capybara.}
-  spec.description   = %q{GhostPictures provides the feature to wait for Ajax requests with Capybara.}
+  spec.summary       = "GhostPictures provides the feature to wait for Ajax requests with Capybara."
+  spec.description   = "GhostPictures provides the feature to wait for Ajax requests with Capybara."
   spec.homepage      = "https://github.com/sinsoku/ghost_pictures"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
@@ -23,4 +23,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.15"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_development_dependency "capybara"
+  spec.add_development_dependency "selenium-webdriver"
 end
