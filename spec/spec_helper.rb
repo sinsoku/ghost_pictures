@@ -15,6 +15,8 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+
+  config.include GhostPictures::RSpecHelpers
 end
 
 require 'fake_app'

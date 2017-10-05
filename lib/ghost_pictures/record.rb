@@ -17,7 +17,7 @@ module GhostPictures
       end
 
       def select_if(method, path)
-        finished.select do |req|
+        finished_requests.select do |req|
           (method.nil? || req.method == method) &&
             (path.nil? || req.path == path)
         end
@@ -28,6 +28,10 @@ module GhostPictures
       end
 
       private
+
+      def finished_requests
+        started & finished
+      end
 
       def running_requests
         started - finished

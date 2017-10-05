@@ -30,45 +30,27 @@ Or install it yourself as:
 config.middleware.use GhostPictures::Capture
 ```
 
-### RSpec
-
-```rb
-# spec/rails_helper.rb
-RSpec.configure do |config|
-  config.around(:example, type: :feature, js: true) do |example|
-    GhostPictures.reset!
-    example.run
-    GhostPictures.wait if GhostPictures.running?
-  end
-end
-```
-
 ## Examples
 
-### Wait for all Ajax requests
+### Wait for a Ajax request
 
 ```rb
-click_link "get data via Ajax"
-GhostPictures.wait
-```
-
-Or use it with the block argument:
-
-```rb
-GhostPictures.wait { click_link "get data via Ajax" }
+GhostPictures.wait_for { click_link "get data via Ajax" }
 ```
 
 ### Wait for matching requests
 
 ```rb
 # Wait for a request with "/users"
-GhostPictures.wait("/users")
+GhostPictures.wait_for("/users") { click_link }
 
 # Wait for a POST request with "/users"
-GhostPictures.wait("/users", method: :post)
+GhostPictures.wait_for("/users", method: :post) { click_link }
 
 # Wait for two requests
-GhostPictures.wait(nil, count: 2)
+GhostPictures.wait_for(nil, count: 2) do
+  2.times { click_link }
+end
 ```
 
 ## Development
