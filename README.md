@@ -30,29 +30,9 @@ Or install it yourself as:
 config.middleware.use GhostPictures::Capture
 ```
 
-### RSpec
-
-```rb
-# spec/rails_helper.rb
-RSpec.configure do |config|
-  config.around(:example, type: :feature, js: true) do |example|
-    GhostPictures.reset!
-    example.run
-    GhostPictures.wait if GhostPictures.running?
-  end
-end
-```
-
 ## Examples
 
-### Wait for all Ajax requests
-
-```rb
-click_link "get data via Ajax"
-GhostPictures.wait
-```
-
-Or use it with the block argument:
+### Wait for a Ajax request
 
 ```rb
 GhostPictures.wait { click_link "get data via Ajax" }
@@ -62,13 +42,25 @@ GhostPictures.wait { click_link "get data via Ajax" }
 
 ```rb
 # Wait for a request with "/users"
-GhostPictures.wait("/users")
+GhostPictures.wait("/users") { click_link }
 
 # Wait for a POST request with "/users"
-GhostPictures.wait("/users", method: :post)
+GhostPictures.wait("/users", method: :post) { click_link }
 
 # Wait for two requests
-GhostPictures.wait(nil, count: 2)
+GhostPictures.wait(nil, count: 2) do
+  2.times { click_link }
+end
+```
+
+### nested block arguments are **not supported**
+
+```rb
+GhostPictures.wait do
+  click_link
+  GhostPictures.wait { click_link }
+end
+#=>
 ```
 
 ## Development
