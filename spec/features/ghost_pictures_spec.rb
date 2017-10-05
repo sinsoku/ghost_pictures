@@ -1,7 +1,9 @@
-require "spec_helper"
+# frozen_string_literal: true
 
-RSpec.describe "GhostPictures", type: :feature do
-  MESSAGE = "The example finished before the request complete"
+require 'spec_helper'
+
+RSpec.describe 'GhostPictures', type: :feature do
+  MESSAGE = 'The example finished before the request complete'
 
   before(:context) { @running = [] }
   before do |example|
@@ -25,13 +27,13 @@ RSpec.describe "GhostPictures", type: :feature do
     visit '/'
     call_ajax
 
-    GhostPictures.wait("/js")
+    GhostPictures.wait('/js')
   end
 
   it 'should wait a request after call block arg' do
     visit '/'
 
-    GhostPictures.wait("/js") { call_ajax }
+    GhostPictures.wait('/js') { call_ajax }
   end
 
   it 'should wait requests' do

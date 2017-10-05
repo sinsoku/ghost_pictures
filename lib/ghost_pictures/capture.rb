@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module GhostPictures
   Request = Struct.new(:id, :method, :path)
 
@@ -19,7 +21,7 @@ module GhostPictures
 
     def build_request(env)
       @id += 1
-      Request.new(@id, env["REQUEST_METHOD"].downcase.to_sym, env["PATH_INFO"])
+      Request.new(@id, env['REQUEST_METHOD'].downcase.to_sym, env['PATH_INFO'])
     end
   end
 end

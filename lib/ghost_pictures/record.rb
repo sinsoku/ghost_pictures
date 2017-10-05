@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module GhostPictures
   module Record
     class << self

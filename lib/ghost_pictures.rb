@@ -1,7 +1,9 @@
-require "timeout"
-require "ghost_pictures/capture"
-require "ghost_pictures/record"
-require "ghost_pictures/version"
+# frozen_string_literal: true
+
+require 'timeout'
+require 'ghost_pictures/capture'
+require 'ghost_pictures/record'
+require 'ghost_pictures/version'
 
 module GhostPictures
   class << self
