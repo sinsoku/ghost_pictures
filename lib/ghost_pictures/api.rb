@@ -12,9 +12,9 @@ module GhostPictures
       Timeout.timeout(Capybara.default_max_wait_time) do
         loop { break if Record.select_if(method, path).size >= count }
       end
+      wait_for_jquery_ajax
     end
 
-    # @see https://robots.thoughtbot.com/automatically-wait-for-ajax-with-capybara
     def wait_for_jquery_ajax
       Timeout.timeout(Capybara.default_max_wait_time) do
         loop until finished_all_ajax_requests?
@@ -24,7 +24,8 @@ module GhostPictures
     private
 
     def finished_all_ajax_requests?
-      Capybara.page.evaluate_script('jQuery.active').zero?
+      !Capybara.page.evaluate_script('window.hasOwnProperty("jQuery")') ||
+        Capybara.page.evaluate_script('jQuery.active').zero?
     end
   end
 end
