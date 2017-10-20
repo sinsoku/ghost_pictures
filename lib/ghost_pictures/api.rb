@@ -24,7 +24,7 @@ module GhostPictures
     private
 
     def finished_all_ajax_requests?
-      page.evaluate_script('jQuery.active').zero?
+      Capybara.page.evaluate_script('jQuery.active').zero?
     end
   end
 end
